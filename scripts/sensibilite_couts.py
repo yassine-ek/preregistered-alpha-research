@@ -32,6 +32,7 @@ from alpha import donnees as d  # noqa: E402
 from alpha import graphiques as g  # noqa: E402
 from alpha import moteur  # noqa: E402
 from alpha import pipeline as pl  # noqa: E402
+import verifier_donnees  # noqa: E402  (message guidé si les données manquent)
 
 TITRE = "EXPLORATOIRE — non pré-enregistré, ne modifie pas le verdict"
 MULTIPLICATEURS = [0.0, 0.1, 0.25, 0.5, 1.0]
@@ -88,6 +89,7 @@ def figure(courbes: dict, chemin: Path) -> None:
 
 
 def main() -> None:
+    verifier_donnees.exiger_donnees()
     sortie = pl.calculer_sleeves(d.FIN_VAL, test_autorise=False)  # TRAIN + VAL seulement
     res = sortie["resultats"]
     assert max(r.net.index.max() for r in res.values()) < d.DEBUT_TEST

@@ -36,7 +36,7 @@ ACTIFS_EXCLUS = {
     "WTIUSD", "ETXEUR", "XAUAUD", "XAUCHF", "XAUEUR", "XAUGBP", "UDXUSD", "GRXEUR",
 }
 
-# ATTENTION (relecture du 13/10) : les minutes HistData ne sont PAS en EST fixe (UTC-5), contrairement
+# ATTENTION (contre-vérification du 13/10) : les minutes HistData ne sont PAS en EST fixe (UTC-5), contrairement
 # à ce que dit le prereg. L'horloge des fichiers suit l'heure d'été : ouverture hebdomadaire du FX
 # toujours à 17h00, pic NFP à 08h30 et ouverture cash US à 09h30 été comme hiver. Deux régimes, établis
 # sur l'ouverture hebdomadaire du FX (voir results/notes_implementation.md, section « Corrections ») :
@@ -47,7 +47,7 @@ DEBUT_HORLOGE_UE = pd.Timestamp("2019-01-01", tz="UTC")
 # Fuseau « étiquettes » : les heures données directement dans l'horloge des fichiers (instantané 11h00,
 # fenêtre S5 06h00-10h00) sont lues telles quelles, sans conversion.
 FUSEAU_DONNEES = "Etc/GMT+5"
-HEURE_INSTANTANE_EST = 11  # fixing global retenu par PIVOT-0 (étiquette de l'horloge des fichiers)
+HEURE_INSTANTANE_EST = 11  # fixing global retenu à 11h00 lors d'une exploration antérieure (étiquette de l'horloge des fichiers)
 
 
 def _verifier_plafond(fin: pd.Timestamp, test_autorise: bool) -> pd.Timestamp:

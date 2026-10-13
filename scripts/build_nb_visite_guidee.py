@@ -16,12 +16,12 @@ def code(t):
 
 
 md(r"""
-# Visite guidée du projet 04 : empiler 7 sleeves peut-il donner un Sharpe net > 2 ?
+# Visite guidée : empiler 7 sleeves peut-il donner un Sharpe net > 2 ?
 
 Ce carnet suit, pour chaque sleeve, le même fil : **intuition, formule, attente, code, lecture**. Les chiffres viennent
 de `results/train_val.json` (produit par `scripts/run_train_val.py`) : rien n'est retapé à la main.
 
-**Règles du jeu** (voir `PREREGISTRATION.md`, figé avant tout calcul, empreinte SHA-256 `f6007427…`) :
+**Règles du jeu** (voir `PREREGISTRATION_v1.md`, figé avant tout calcul, empreinte SHA-256 `f6007427…` ; `PREREGISTRATION.md` = v1 + avenants) :
 
 - 7 sleeves aux paramètres FIXÉS d'avance, aucune grille, aucune sélection par la performance passée ;
 - coûts réels par actif (`data/frais_editable.csv`, indices à 12 bps par jambe) ;
@@ -214,7 +214,7 @@ md(r"""
 **Intuition.** Les devises étrangères tendent à se déprécier contre USD pendant les heures de leur propre marché local (les agents locaux vendent leur monnaie pour acheter des actifs étrangers),
 puis à remonter pendant les heures américaines. On vend donc EUR, GBP, CHF pendant la fenêtre de Londres (08h-14h) et JPY, AUD, NZD pendant celle de Tokyo (09h-15h), à plat le reste du temps.
 
-**Formule.** Entrée à l'open de la minute qui suit le début de fenêtre, sortie à l'open de la minute qui suit la fin de fenêtre ; heures locales converties vers l'horloge réelle des fichiers, qui suit l'heure d'été (ce n'est pas de l'EST fixe : défaut corrigé à la relecture du 13/10, voir `results/notes_implementation.md`).
+**Formule.** Entrée à l'open de la minute qui suit le début de fenêtre, sortie à l'open de la minute qui suit la fin de fenêtre ; heures locales converties vers l'horloge réelle des fichiers, qui suit l'heure d'été (ce n'est pas de l'EST fixe : défaut trouvé à la contre-vérification du 13/10 et corrigé, voir `results/notes_implementation.md`).
 Coût = 2 jambes × coût de la paire × |poids| par jour.
 
 **Attente honnête.** L'effet est de l'ordre de quelques dixièmes de point de base par jour et par paire. Le coût aller-retour d'une paire FX vaut 0,8 à 4,5 bps : on s'attend à un Sharpe BRUT légèrement positif et à un Sharpe NET très négatif.
@@ -248,7 +248,7 @@ ils sont devenus trop exposés à l'USD et vendent du dollar au fixing de fin de
 **Formule.** Dernier jour ouvré du mois, fenêtre 06h00 → 10h00 EST : si le SPX a surperformé l'indice étranger (France, Royaume-Uni, Japon, Australie) depuis le début du mois (mesuré à 06h00 EST), on vend l'USD contre la devise
 (EURUSD, GBPUSD, AUDUSD long ; USDJPY short), sinon on fait l'inverse. 12 trades par an et par paire : la vol cible de 10 % est donc atteinte avec un levier élevé (variance annuelle = 12 × variance d'une fenêtre).
 
-**Attente honnête.** Effet documenté en échantillon par les auteurs ; nous n'avons que 12 observations par an, donc un IC très large. On attend un Sharpe proche de zéro, peu significatif.
+**Attente honnête.** Effet documenté en échantillon par les auteurs ; on n'a que 12 observations par an, donc un IC très large. On attend un Sharpe proche de zéro, peu significatif.
 """)
 
 code(r"""

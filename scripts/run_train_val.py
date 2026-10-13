@@ -21,6 +21,8 @@ import pandas as pd  # noqa: E402
 from alpha import donnees as d  # noqa: E402
 from alpha import gates, graphiques  # noqa: E402
 from alpha import pipeline as pl  # noqa: E402
+import verifier_donnees  # noqa: E402  (message guidé si les données manquent)
+import verifier_prereg  # noqa: E402  (empreinte de la v1)
 
 RESULTATS = RACINE / "results"
 FIGURES = RACINE / "figures"
@@ -43,6 +45,7 @@ def nettoyer(o):
 
 def main() -> None:
     t0 = time.time()
+    verifier_donnees.exiger_donnees()
     RESULTATS.mkdir(exist_ok=True)
     FIGURES.mkdir(exist_ok=True)
     sortie = pl.calculer_sleeves(d.FIN_VAL, test_autorise=False, verbeux=True)
@@ -79,7 +82,7 @@ def main() -> None:
     rapport = {
         "meta": {
             "date_calcul": datetime.now().isoformat(timespec="seconds"),
-            "prereg_sha256": pl.sha256_fichier(RACINE / "PREREGISTRATION.md"),
+            "prereg_sha256": verifier_prereg.sha256_v1(),  # empreinte de la version d'origine (le fichier courant contient les avenants)
             "code_sha256": pl.sha256_code(),
             "n_essais_dsr": pl.N_ESSAIS,
             "periodes": {"TRAIN": [str(d.DEBUT_DONNEES.date()), str(d.FIN_TRAIN.date())],

@@ -1,0 +1,132 @@
+{
+  "titre": "EXPLORATOIRE, hors verdict : contrôle positif (sleeve synthétique à edge connu)",
+  "avertissement": "Rendements simulés (gaussiens indépendants, vol 10 %, graine fixe) ; aucune donnée de marché ; ne modifie ni le verdict ni le TEST.",
+  "verdict_officiel_inchange": {
+    "verdict": "ECHEC",
+    "statut_test": "scelle_G1_ou_G2_en_echec"
+  },
+  "frontieres": {
+    "train_fin": "2018-12-31",
+    "val_fin": "2022-12-31"
+  },
+  "sharpe_min_detectable_80pct": 1.2222265939701569,
+  "pile_reelle_val": {
+    "sharpe_net": -5.302098799428685,
+    "ic95_sharpe": [
+      -6.309875268254767,
+      -4.304735381548625
+    ]
+  },
+  "illustration": {
+    "sharpe_vrai": 1.0,
+    "graine": 20261014,
+    "n_jours_total": 3092,
+    "n_jours_val": 1044,
+    "TRAIN": {
+      "n_jours": 2048,
+      "sharpe_net": 0.6227581920202013,
+      "sharpe_brut": 0.6227581920202013,
+      "rendement_annuel_net": 0.06165597525898781,
+      "vol_annuelle": 0.099004679583545,
+      "drawdown_max": -0.1521707073422649,
+      "rotation_annuelle": 0.0,
+      "cout_annuel": 0.0,
+      "premier_jour": "2011-02-24",
+      "ic95_sharpe": [
+        -0.007323707377828551,
+        1.2602782142909323
+      ]
+    },
+    "VAL": {
+      "n_jours": 1044,
+      "sharpe_net": 1.0316160237320893,
+      "sharpe_brut": 1.0316160237320893,
+      "rendement_annuel_net": 0.10267933805879227,
+      "vol_annuelle": 0.09953251568091008,
+      "drawdown_max": -0.15385295852341396,
+      "rotation_annuelle": 0.0,
+      "cout_annuel": 0.0,
+      "premier_jour": "2019-01-01",
+      "ic95_sharpe": [
+        0.04984575154382042,
+        2.0713567781254407
+      ]
+    },
+    "nw": {
+      "t_nw": 1.9871286794872869,
+      "p_nw": 0.04690813880494504,
+      "retards": 6
+    },
+    "psr0": 0.9819734894245296,
+    "dsr": 0.5230902714244454,
+    "sr0_annualise": 1.0031176343796708,
+    "gates": {
+      "G1": {
+        "critere": "Sharpe net VAL >= 1.0",
+        "valeur": 1.0316160237320893,
+        "passe": true
+      },
+      "G2": {
+        "critere": "borne basse IC95 bootstrap du Sharpe VAL > 0",
+        "valeur": 0.04984575154382042,
+        "passe": true
+      },
+      "G3": {
+        "critere": "DSR VAL (N=8) >= 0.95",
+        "valeur": 0.5230902714244454,
+        "passe": false
+      },
+      "objectif_utilisateur_sharpe_2": {
+        "valeur": 1.0316160237320893,
+        "atteint": false
+      }
+    }
+  },
+  "puissance": {
+    "n_rep": 300,
+    "n_jours": 1044,
+    "n_tirages_bootstrap": 1000,
+    "par_sharpe_vrai": {
+      "0.0": {
+        "sharpe_estime_moyen": -0.009025148593849279,
+        "sharpe_estime_ecart_type": 0.4723289954901471,
+        "taux_G1": 0.016666666666666666,
+        "taux_G2": 0.03,
+        "taux_G3": 0.0,
+        "couverture_ic95": 0.9566666666666667
+      },
+      "0.5": {
+        "sharpe_estime_moyen": 0.4543925888155027,
+        "sharpe_estime_ecart_type": 0.4635127389906813,
+        "taux_G1": 0.1,
+        "taux_G2": 0.15333333333333332,
+        "taux_G3": 0.0033333333333333335,
+        "couverture_ic95": 0.95
+      },
+      "1.0": {
+        "sharpe_estime_moyen": 1.0716152438314068,
+        "sharpe_estime_ecart_type": 0.4810887472745049,
+        "taux_G1": 0.5933333333333334,
+        "taux_G2": 0.6033333333333334,
+        "taux_G3": 0.023333333333333334,
+        "couverture_ic95": 0.93
+      },
+      "1.5": {
+        "sharpe_estime_moyen": 1.476144705063211,
+        "sharpe_estime_ecart_type": 0.5307069122584497,
+        "taux_G1": 0.8233333333333334,
+        "taux_G2": 0.85,
+        "taux_G3": 0.17,
+        "couverture_ic95": 0.9166666666666666
+      },
+      "2.0": {
+        "sharpe_estime_moyen": 2.048740600630203,
+        "sharpe_estime_ecart_type": 0.4880542543964303,
+        "taux_G1": 0.9833333333333333,
+        "taux_G2": 0.98,
+        "taux_G3": 0.5133333333333333,
+        "couverture_ic95": 0.94
+      }
+    }
+  }
+}

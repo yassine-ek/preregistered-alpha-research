@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.ticker import FuncFormatter
 from scipy import stats as sps
 
 from . import theorie
@@ -159,9 +160,9 @@ def figure_q4(t4: dict, chemin: Path) -> None:
     ax.errorbar([int(k) for k in sim], [v["simulation_moyenne"] for v in sim.values()],
                 yerr=[v["simulation_ecart_type"] for v in sim.values()], fmt="ko", capsize=3, label="simulation (bruit blanc, 1044 jours)")
     ax.axhline(2.0, color=ROUGE, ls=":", label="Sharpe 2")
-    for h in t4["historique_awb"]:
+    for h in t4["historique_essais_anterieurs"]:
         ax.axvline(h["n_essais"], color="grey", lw=0.5, alpha=0.5)
-    ax.text(134, 0.3, "134 essais AWB\n(plancher)", fontsize=7, ha="right", va="bottom")
+    ax.text(134, 0.3, "134 essais\n(plancher déclaré)", fontsize=7, ha="right", va="bottom")
     ax.set_xscale("log")
     ax.set_xlabel("nombre d'essais N")
     ax.set_ylabel("Sharpe annualisé maximal attendu SANS aucun edge")
@@ -257,4 +258,47 @@ def figure_q7(t7: dict, chemin: Path) -> None:
     ax.legend(fontsize=8)
     ax.grid(alpha=0.3, which="both")
     _titre(fig, "Q7 — Capacité de S1 et S6")
+    _sauver(fig, chemin)
+
+
+def figure_controle_positif(rapport: dict, rendements: np.ndarray, dates, chemin: Path) -> None:
+    """Contrôle positif : à gauche la sleeve synthétique (Sharpe vrai connu) sur le calendrier réel, à droite les taux de détection."""
+    import pandas as pd
+
+    il, pu = rapport["illustration"], rapport["puissance"]
+    fin_train = pd.Timestamp(rapport["frontieres"]["train_fin"])
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(12.5, 5.4), gridspec_kw={"width_ratios": [1.1, 1]})
+    eq = 100 * np.cumprod(1.0 + rendements)
+    ax.axvspan(dates[0], fin_train, color="#e7e9ee", zorder=0)
+    ax.axvline(fin_train + pd.Timedelta(days=1), color="0.35", ls="--", lw=1)
+    ax.semilogy(dates, eq, color="#0b3d91", lw=1.8)
+    t, v = il["TRAIN"], il["VAL"]
+    ax.text(0.03, 0.96, f"TRAIN : Sharpe estimé {t['sharpe_net']:.2f}\nIC 95 % [{t['ic95_sharpe'][0]:.2f} ; {t['ic95_sharpe'][1]:.2f}]",
+            transform=ax.transAxes, va="top", fontsize=10)
+    ax.text(0.97, 0.04, f"VAL : Sharpe estimé {v['sharpe_net']:.2f}\nIC 95 % [{v['ic95_sharpe'][0]:.2f} ; {v['ic95_sharpe'][1]:.2f}]",
+            transform=ax.transAxes, va="bottom", ha="right", fontsize=10)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: f"{y:g}"))
+    ax.yaxis.set_minor_formatter(FuncFormatter(lambda y, _: f"{y:g}" if y in (80, 150, 200, 300) else ""))
+    ax.set_ylabel("capital (base 100, échelle log)")
+    ax.set_title(f"Sleeve synthétique, Sharpe VRAI {il['sharpe_vrai']:.1f} (graine {il['graine']})", fontsize=10.5)
+    ax.grid(alpha=0.3, which="both", axis="y")
+    srs = sorted(pu["par_sharpe_vrai"], key=float)
+    x = [float(s) for s in srs]
+    for cle, lab, c, mk in (("taux_G2", "G2 : borne basse de l'IC 95 % > 0", "#0b3d91", "o"), ("taux_G1", "G1 : Sharpe estimé ≥ 1", "#2ca02c", "s"),
+                            ("taux_G3", "G3 : DSR ≥ 0,95 (N = 8)", "#d62728", "^")):
+        bx.plot(x, [100 * pu["par_sharpe_vrai"][s][cle] for s in srs], marker=mk, color=c, lw=1.8, label=lab)
+    bx.axhline(80, color="0.5", ls=":", lw=1)
+    bx.text(x[-1], 76, "puissance 80 %", fontsize=9, color="0.35", ha="right")
+    if rapport.get("sharpe_min_detectable_80pct") is not None:
+        s80 = rapport["sharpe_min_detectable_80pct"]
+        bx.axvline(s80, color=ROUGE, ls=":", lw=1)
+        bx.text(s80 + 0.03, 1.0, f"détectable à 80 % : {s80:.2f}", color=ROUGE, fontsize=9)
+    bx.set_xlabel("Sharpe VRAI de la sleeve simulée")
+    bx.set_ylabel(f"part des {pu['n_rep']} simulations où la gate passe (%)")
+    bx.set_ylim(-3, 103)
+    bx.set_title(f"Détection sur {pu['n_jours']} jours (= VAL) ; à Sharpe vrai 0 : faux positifs", fontsize=10.5)
+    bx.legend(fontsize=9, loc="upper left")
+    bx.grid(alpha=0.3)
+    fig.tight_layout(rect=(0, 0, 1, 0.88))
+    fig.suptitle(f"Contrôle positif : le pipeline retrouve-t-il un edge connu ?\n{BANDEAU}", fontsize=10, color=ROUGE, fontweight="bold", y=0.995)
     _sauver(fig, chemin)

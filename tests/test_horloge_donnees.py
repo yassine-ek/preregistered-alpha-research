@@ -1,4 +1,4 @@
-"""Horloge réelle des minutes HistData (constat de la relecture du 13/10).
+"""Horloge réelle des minutes HistData (constat de la contre-vérification du 13/10).
 
 Le prereg suppose des minutes en EST fixe (UTC-5). C'est faux : l'horloge suit l'heure d'été
 (ouverture hebdomadaire du FX toujours à 17h00). Conséquence de l'ancienne hypothèse : les fenêtres

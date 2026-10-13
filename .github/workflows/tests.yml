@@ -14,5 +14,7 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
+      # Pré-enregistrement : empreinte de PREREGISTRATION_v1.md et lien v1 -> PREREGISTRATION.md (aucune donnée requise).
+      - run: python scripts/verifier_prereg.py
       # Sans HISTDATA_DIR, les tests qui lisent les données de marché sont sautés (skipped), pas en échec.
       - run: pytest -q

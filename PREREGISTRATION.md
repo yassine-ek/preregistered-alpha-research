@@ -115,3 +115,22 @@ Transparence : la correction a été faite APRÈS avoir vu VAL. Elle a dégradé
 (S4 brut VAL +0,58 → +0,14 ; pile net −5,32 → −5,30) ; elle n'a donc pas pu être choisie pour
 améliorer le verdict, qui reste `ECHEC`, TEST scellé. Version d'origine du fichier : commit
 9853f2b (SHA-256 f6007427…).
+
+### AVENANT 2 — 2026-10-14 (après audit externe du dépôt public)
+
+**Objet : exactitude des horodatages et vérifiabilité ; aucun changement de protocole.**
+
+1. Les heures écrites dans le texte (« vers 01h15 » en tête, « ~04h00 » pour l'avenant 1) sont
+   des estimations erronées de l'auteur, faites sans lire l'horloge. Les horodatages qui font foi
+   sont ceux des commits git d'origine : pré-enregistrement commité le 2026-10-13 à 00:43:19
+   (+02:00), avant le premier fichier de code du projet ; avenant 1 commité le même jour à
+   01:51:20 (+02:00). L'ordre des événements (protocole → code → VAL → avenant 1) est inchangé.
+2. Le dépôt public a un historique réduit à la publication : la version d'origine du protocole
+   est donc publiée à part, à l'octet près, dans `PREREGISTRATION_v1.md` (SHA-256
+   `f6007427c1a455525c3e863e680e02aac4775e432783abc1ea6247b656182250`). Ce fichier-ci = v1 dont la
+   ligne `(aucun)` est remplacée par les avenants, sans autre modification (vérifiable par diff).
+3. L'horodatage repose sur un dépôt git personnel, pas sur un tiers de confiance ; et la période
+   VAL 2019-2022 avait déjà été vue par l'auteur lors d'un projet de recherche antérieur sur
+   d'autres stratégies. Le nombre d'essais N = 8 du DSR est donc un plancher, pas un compte exact.
+4. Les chemins de fichiers locaux du §2 sont historiques ; le code publié lit les données via la
+   variable d'environnement `HISTDATA_DIR`.

@@ -93,9 +93,16 @@ def test_json_approfondissement_sans_test_et_verdict_inchange():
 
 
 def test_prereg_et_ouvrir_test_intacts():
-    """Garde-fou de l'approfondissement : le prereg garde son empreinte d'origine + avenant, ouvrir_test.py n'est pas lancé."""
+    """Garde-fou de l'approfondissement : la v1 du prereg garde son empreinte d'origine, PREREGISTRATION.md = v1 + les avenants 1 et 2
+    (rien de plus : pas d'avenant ajouté par l'approfondissement), et le TEST n'a jamais été ouvert."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("verifier_prereg", RACINE / "scripts" / "verifier_prereg.py")
+    vp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(vp)
+    assert vp.verifier() == []
     prereg = (RACINE / "PREREGISTRATION.md").read_text(encoding="utf-8")
-    assert "AVENANT 1" in prereg and "AVENANT 2" not in prereg  # aucun nouvel avenant : on n'a rien changé au protocole
+    assert "AVENANT 1" in prereg and "AVENANT 2" in prereg and "AVENANT 3" not in prereg
+    assert not (RACINE / "results" / "test_ouvert.json").exists()
 
 
 def test_code_officiel_inchange_empreinte_identique():
@@ -108,4 +115,4 @@ def test_code_officiel_inchange_empreinte_identique():
     tv = json.loads((RACINE / "results" / "train_val.json").read_text(encoding="utf-8"))
     emp = json.loads((RACINE / "results" / "empreinte_code.json").read_text(encoding="utf-8"))
     assert emp["avant_chemins_13_10"]["sha256_code_octets_bruts"] == tv["meta"]["code_sha256"]
-    assert pl.sha256_code() == emp["apres_chemins_13_10"]["sha256_code"]
+    assert pl.sha256_code() == emp["apres_audit_14_10"]["sha256_code"]      # la plus récente ; apres_chemins_13_10 reste l'historique

@@ -1,5 +1,5 @@
 {
-  "description": "Empreintes du code officiel (alpha/*.py + scripts/run_train_val.py, ouvrir_test.py, verdict.py) avant et après la mise en conformité GitHub du 13/10 (chemins relatifs, HISTDATA_DIR). Détail : results/notes_implementation.md, section « Mise en conformité GitHub ».",
+  "description": "Empreintes du code officiel (alpha/*.py + scripts/run_train_val.py, ouvrir_test.py, verdict.py) avant et après la mise en conformité GitHub du 13/10 (chemins relatifs, HISTDATA_DIR). Détail : results/notes_implementation.md, section « Mise en conformité GitHub ». Une troisième empreinte (apres_audit_14_10) suit les corrections du 14/10 : vérification du pré-enregistrement sur la v1, commentaires neutralisés.",
   "avant_chemins_13_10": {
     "commit": "b3c9522 (HEAD au moment de la mise en conformité ; dernier commit à avoir modifié alpha/ et les 3 scripts officiels : e022cbe)",
     "sha256_code_octets_bruts": "ad21bbc893b1aa34db15f0f34495ce26fb9fc4beb6aaac67eb6acab5cb292fa3",
@@ -39,6 +39,37 @@
       "alpha/stats.py": "7591f389d844c1dfbbb6e1eaf1a1b1911205294ec828de513b83e689bce7c11f",
       "scripts/ouvrir_test.py": "81df3f0fb809c25a0051f2184506e02193ae69d4941bc42632f838a24934c041",
       "scripts/run_train_val.py": "a8661798f08e0d22ba1a12c9937da786a5bb7d6f53e092d303ddaea5077e3aa3",
+      "scripts/verdict.py": "57b5b2f30404571718856b6658a7159f72038e249e6524ff603fc8d55f914871"
+    }
+  },
+  "apres_audit_14_10": {
+    "sha256_code": "1fea0b0731e35a669719810548eb356df4662880be7688864e2f85c9cc236d94",
+    "algorithme": "pipeline.sha256_code() : identique à apres_chemins_13_10",
+    "fichiers_modifies": [
+      "alpha/couts.py",
+      "alpha/donnees.py",
+      "scripts/ouvrir_test.py",
+      "scripts/run_train_val.py"
+    ],
+    "nature_des_modifications": {
+      "scripts/ouvrir_test.py": "le garde-fou compare l'empreinte de PREREGISTRATION_v1.md (version d'origine, fins de ligne normalisées) à train_val.json et vérifie que PREREGISTRATION.md = v1 + avenants (scripts/verifier_prereg.py), au lieu de hacher le fichier courant qui contient les avenants ; message guidé si les données manquent",
+      "scripts/run_train_val.py": "meta.prereg_sha256 = empreinte de la v1 (même valeur que celle déjà écrite dans train_val.json) ; message guidé si les données manquent",
+      "alpha/couts.py": "commentaire d'en-tête seulement",
+      "alpha/donnees.py": "commentaires seulement (aucune logique de chargement, d'horloge ou de troncature du TEST modifiée)"
+    },
+    "hash_par_fichier_lf": {
+      "alpha/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "alpha/couts.py": "1801ab6d9b72b0cab2cfb77a89f6a7c118d212695e556e18830aaa1e1824ff53",
+      "alpha/donnees.py": "ffafa4767a121956470a149ea2087e7a607e81b160d28143fc14e9fd055278de",
+      "alpha/gates.py": "e144ded920ec9bff8fbb6d09022be6e6c8e9b1c9d93bb1f9c017165749aade81",
+      "alpha/graphiques.py": "02f63e14e48d3cc27af9f488cbcf43de6e08fd603d8e8e094d5b2a1e21c84bcf",
+      "alpha/moteur.py": "44fb9f91d60d18f43ab1707b4bb15ef768f94736742f9cbd16e69507dba827f9",
+      "alpha/pipeline.py": "8f30990684976ef5d080bb6c585f4e8c0f537f5119de526410131800d0823fee",
+      "alpha/risque.py": "b04a0b3d24645e0c09aeaefc9362de7918eaa6b866fbe2e082f873e8f80c736d",
+      "alpha/sleeves.py": "e8d29bc8a8555169398535a726faac62c15a927f7d69dc1dd0a82e2bb7fdefa5",
+      "alpha/stats.py": "7591f389d844c1dfbbb6e1eaf1a1b1911205294ec828de513b83e689bce7c11f",
+      "scripts/ouvrir_test.py": "08230e357aa58dec9802b2c9836b3f1abfcc14035e74bc2c9cf0b5a0ace6600c",
+      "scripts/run_train_val.py": "32017e5ac0b57f69b62cb8cf3e03bc1670ad54682072cee8a52928af83a7fa98",
       "scripts/verdict.py": "57b5b2f30404571718856b6658a7159f72038e249e6524ff603fc8d55f914871"
     }
   }

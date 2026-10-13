@@ -2,7 +2,8 @@
 
 Ne pas lancer à la légère. Ce script :
  1. refuse de tourner si results/test_ouvert.json existe déjà, si results/train_val.json est
-    absent, ou si G1 ou G2 échoue sur VAL (prereg section 8) ;
+    absent, ou si G1 ou G2 échoue sur VAL (prereg section 8), ou si l'empreinte de
+    PREREGISTRATION_v1.md (version d'origine) ou le lien v1 -> PREREGISTRATION.md ne tient plus ;
  2. recalcule la chaîne complète avec test_autorise=True (mêmes paramètres, mêmes poids de
     pile calibrés sur TRAIN) et vérifie que les chiffres TRAIN/VAL sont identiques à ceux de
     train_val.json (preuve que rien de causal n'a changé en ajoutant des données futures) ;
@@ -20,6 +21,7 @@ from pathlib import Path
 
 RACINE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RACINE))
+sys.path.insert(0, str(RACINE / "scripts"))
 
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
@@ -27,6 +29,8 @@ import pandas as pd  # noqa: E402
 from alpha import donnees as d  # noqa: E402
 from alpha import gates  # noqa: E402
 from alpha import pipeline as pl  # noqa: E402
+import verifier_donnees  # noqa: E402  (message guidé si les données manquent)
+import verifier_prereg  # noqa: E402  (empreinte de la v1, fins de ligne normalisées)
 
 RESULTATS = RACINE / "results"
 CHEMIN_TEST = RESULTATS / "test_ouvert.json"
@@ -51,9 +55,14 @@ def main() -> None:
     autorise, raison = gates.conditions_ouverture_test(train_val, CHEMIN_TEST)
     if not autorise:
         sys.exit(f"REFUS : {raison}")
-    if pl.sha256_fichier(RACINE / "PREREGISTRATION.md") != train_val["meta"]["prereg_sha256"]:
-        sys.exit("REFUS : le prereg a changé depuis train_val.json (hash différent)")
+    # on vérifie la version d'ORIGINE (PREREGISTRATION_v1.md) : le fichier courant contient les avenants, donc son hash brut diffère
+    if verifier_prereg.sha256_v1() != train_val["meta"]["prereg_sha256"]:
+        sys.exit("REFUS : PREREGISTRATION_v1.md ne correspond plus à l'empreinte de train_val.json (hash différent)")
+    ecarts = verifier_prereg.verifier()
+    if ecarts:
+        sys.exit("REFUS : PREREGISTRATION.md n'est plus la v1 + avenants : " + " ; ".join(ecarts))
 
+    verifier_donnees.exiger_donnees()
     # dernière date disponible dans les données 1 h (aucune statistique TEST n'est lue ici)
     fin = d.charger_1h("EURUSD", fin=pd.Timestamp("2100-01-01"), test_autorise=True).index.max().normalize()
     sortie = pl.calculer_sleeves(fin, test_autorise=True, verbeux=True)

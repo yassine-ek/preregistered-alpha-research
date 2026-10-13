@@ -23,6 +23,8 @@ from alpha import pipeline as pl  # noqa: E402
 from alpha.approfondissement import chargement as ap  # noqa: E402
 from alpha.approfondissement import diagnostics as dg  # noqa: E402
 from alpha.approfondissement import figures as ag  # noqa: E402
+import verifier_donnees  # noqa: E402  (message guidé si les données manquent)
+import verifier_prereg  # noqa: E402  (empreinte de la v1)
 
 RESULTATS, FIGURES = RACINE / "results", RACINE / "figures"
 TITRE = "EXPLORATOIRE — non pré-enregistré, ne modifie pas le verdict"
@@ -77,12 +79,12 @@ def conclusions(r: dict) -> dict:
     v8, v134 = t4["validation_formule_vs_simulation"]["8"], t4["validation_formule_vs_simulation"]["134"]
     b = t4["n_essais_pour_sharpe_2_selon_duree_backtest_annees"]
     cb = t4["n_essais_pour_sharpe_cible_sur_4_ans"]
-    h134 = next(h for h in t4["historique_awb"] if h["n_essais"] == 134)
+    h134 = next(h for h in t4["historique_essais_anterieurs"] if h["n_essais"] == 134)
     c4 = (f"Sharpe maximal attendu sans aucun edge : {f(v8['formule'])} pour N = 8 (simulation {f(v8['simulation_moyenne'])}), {f(v134['formule'])} pour N = 134, plancher d'essais "
-          f"documenté par PIVOT-4 (simulation {f(v134['simulation_moyenne'])}) ; P(au moins un Sharpe VAL >= 2 par hasard | N = 134) = {f(100 * h134['p_au_moins_un_sharpe_2'], 1)} %. "
+          f"déclaré par un projet antérieur (simulation {f(v134['simulation_moyenne'])}) ; P(au moins un Sharpe VAL >= 2 par hasard | N = 134) = {f(100 * h134['p_au_moins_un_sharpe_2'], 1)} %. "
           f"Sur la durée de VAL (4,1 ans) le hasard seul fabrique un Sharpe de 1 après {f(cb['1.0'], 0)} essais et de 2 après {f(cb['2.0'], 0)} ; selon la durée du backtest, un Sharpe de 2 sort du hasard "
           f"après {f(b['1']['n_essais_pour_sr_attendu_2'], 0)} essais (1 an), {f(b['2']['n_essais_pour_sr_attendu_2'], 0)} (2 ans), {f(b['4']['n_essais_pour_sr_attendu_2'], 0)} (4 ans), {b['8']['n_essais_pour_sr_attendu_2']:.1e} (8 ans). "
-          f"Choisir la meilleure des 1770 paires de l'univers AWB donnerait {f(t4['illustration_selection_1770_paires']['sharpe_max_attendu_sans_edge'])} sans edge (hypothèse : essais indépendants). "
+          f"Choisir la meilleure des 1770 paires d'un univers de 60 actifs donnerait {f(t4['illustration_selection_1770_paires']['sharpe_max_attendu_sans_edge'])} sans edge (hypothèse : essais indépendants). "
           f"Conséquence : un « Sharpe > 2 » issu d'une recherche répétée n'a de sens qu'après déflation par le N réel ; le SR0 du prereg ({f(t4['dsr']['sr0_annualise_prereg_variance_observee'])}) est tiré par S7, "
           f"le seuil théorique est {f(t4['dsr']['sr0_annualise_variance_theorique'])} (le verdict ne change pas).")
     causes = {k: v["cause"]["cause"] + (" (" + v["cause"]["precision"] + ")" if v["cause"]["precision"] else "") for k, v in t5["sleeves"].items()}
@@ -115,7 +117,12 @@ def main() -> None:
     RESULTATS.mkdir(exist_ok=True)
     FIGURES.mkdir(exist_ok=True)
     rafraichir = "--rafraichir" in sys.argv
-    base = ap.charger_base(rafraichir)
+    try:
+        base = ap.charger_base(rafraichir)
+    except Exception:
+        if not verifier_donnees.donnees_presentes():  # ni cache valide ni données : message guidé plutôt qu'une trace brute
+            verifier_donnees.exiger_donnees()
+        raise
     tv = json.loads((RESULTATS / "train_val.json").read_text(encoding="utf-8"))
     verdict = json.loads((RESULTATS / "verdict_alpha.json").read_text(encoding="utf-8"))
     tout = {**base["res"], "PILE": base["pile"]}
@@ -144,7 +151,9 @@ def main() -> None:
         "avertissement": "Analyse EXPLORATOIRE a posteriori sur TRAIN/VAL. Elle explique le verdict ECHEC, elle ne le modifie pas, ne retouche aucun "
                          "paramètre des sleeves et n'ouvre pas le TEST.",
         "verdict_officiel_inchange": {"verdict": verdict["verdict"], "statut_test": verdict["statut_test"]},
-        "meta": {"prereg_sha256_actuel_avenant1_inclus": pl.sha256_fichier(RACINE / "PREREGISTRATION.md"), "code_sha256_base": base["code_sha256"],
+        "meta": {"prereg_v1_sha256": verifier_prereg.sha256_v1(),
+                 "prereg_sha256_actuel_avenants_inclus": verifier_prereg.sha256_normalise(RACINE / "PREREGISTRATION.md"),
+                 "code_sha256_base": base["code_sha256"],
                  "dernier_jour_utilise": str(max(r.net.index.max() for r in tout.values()).date()),
                  "test": "scellé, non chargé (lecteur 1 h strict, cache minutes TRAIN/VAL)"},
         "Q1_grinold": t1, "Q2_decroissance": t2, "Q3_puissance": t3, "Q4_tests_multiples": t4,

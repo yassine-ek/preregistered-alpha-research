@@ -1,4 +1,4 @@
-"""Exporte le tableau de bord interactif (gabarit commun projets_cv/_outils/dashboard) dans docs/.
+"""Exporte le tableau de bord interactif (gabarit commun de tableau de bord) dans docs/.
 
 Lit UNIQUEMENT des fichiers de results/ (aucune donnée de marché requise, donc exécutable en CI) :
   - results/rendements_train_val.csv   rendements quotidiens bruts et coûts (TRAIN + VAL ; le TEST n'existe pas)
@@ -20,7 +20,7 @@ import pandas as pd
 RACINE = Path(__file__).resolve().parents[1]
 RESULTATS = RACINE / "results"
 DOCS = RACINE / "docs"
-GABARIT = RACINE.parent / "_outils" / "dashboard" / "index.html"  # présent dans le dépôt du portfolio, absent d'un dépôt isolé
+GABARIT = RACINE.parent / "_outils" / "dashboard" / "index.html"  # présent seulement dans le dépôt d'origine ; ici, docs/index.html est déjà versionné
 
 # (libellé, fréquence, classe d'actifs principale)
 SLEEVES = {
@@ -32,6 +32,11 @@ SLEEVES = {
     "S6": ("quotidienne", "Indices"),
     "S7": ("intrajournalière", "Indices"),
 }
+
+
+# une phrase (balises description / og du tableau de bord), 160 caractères au plus
+DESCRIPTION = "7 stratégies de la littérature sous protocole pré-enregistré, coûts réels, test scellé : filtrez les sleeves, lisez la pile (verdict : échec)."
+assert len(DESCRIPTION) <= 160
 
 
 def _chiffre(x: float) -> float:
@@ -103,8 +108,10 @@ def main() -> None:
         filtres.insert(0, {"cle": "nb_trades_train", "libelle": "Nb de trades min (TRAIN, ordres exécutés)", "type": "min"})
 
     data = {
-        "titre": "Projet 04 : 7 stratégies simples et leur pile",
-        "sous_titre": "Filtrer les sleeves sur leurs statistiques TRAIN, combiner celles qui restent, lire la courbe sur TRAIN puis VAL (hors échantillon).",
+        "titre": "Alpha pré-enregistré : 7 stratégies simples et leur pile (verdict : échec)",
+        "description": DESCRIPTION,
+        "sous_titre": "Filtrer les sleeves sur leurs statistiques TRAIN, combiner celles qui restent, lire la courbe sur TRAIN puis VAL. "
+                      "Attention : VAL (2019-2022) avait déjà été vue lors d'un projet de recherche antérieur ; seul TEST (2023+, scellé) est vierge.",
         "frais": texte_frais(tr, tv),
         "frontieres": {"train_fin": str(fin_train.date()), "val_fin": str(fin_val.date())},
         "dates": dates,

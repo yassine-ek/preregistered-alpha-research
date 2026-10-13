@@ -1,0 +1,8 @@
+# Les carnets sont générés par des scripts : ils ne comptent pas dans la barre de langages GitHub.
+*.ipynb linguist-documentation
+# Fins de ligne LF partout (une empreinte SHA-256 ne doit pas dépendre du système du lecteur).
+*.md text eol=lf
+*.json text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.png binary

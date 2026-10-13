@@ -1,4 +1,4 @@
-"""Coûts réels par jambe (bps) lus dans data/frais_editable.csv (copie du fichier de coûts réels du stage).
+"""Coûts réels par jambe (bps) lus dans data/frais_editable.csv (coûts réels par actif, versionnés dans le dépôt).
 
 Règle du prereg (section 2) : coût = `frais_editable_override` s'il est renseigné, sinon
 `frais_bps_par_jambe` ; les indices sont figés à 12 bps. Tout autre coût rend le

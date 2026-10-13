@@ -6,8 +6,9 @@
     "statut_test": "scelle_G1_ou_G2_en_echec"
   },
   "meta": {
-    "prereg_sha256_actuel_avenant1_inclus": "ddad82705303f3e77497cbae84ff5e68c37c223b8e75eea6a1277d8fb4401f3c",
-    "code_sha256_base": "ad21bbc893b1aa34db15f0f34495ce26fb9fc4beb6aaac67eb6acab5cb292fa3",
+    "prereg_v1_sha256": "f6007427c1a455525c3e863e680e02aac4775e432783abc1ea6247b656182250",
+    "prereg_sha256_actuel_avenants_inclus": "1f04a1c58fcd6955d681d7669d3008595ada2ba4994e93ce8d8c62740c3fd52c",
+    "code_sha256_base": "1fea0b0731e35a669719810548eb356df4662880be7688864e2f85c9cc236d94",
     "dernier_jour_utilise": "2022-12-30",
     "test": "scellé, non chargé (lecteur 1 h strict, cache minutes TRAIN/VAL)"
   },
@@ -2715,46 +2716,46 @@
         "simulation_ecart_type": 0.21083013999933753
       }
     },
-    "historique_awb": [
+    "historique_essais_anterieurs": [
       {
-        "noeud": "ETAPE3",
+        "noeud": "exploration A",
         "n_essais": 9,
-        "source": "ETAPE3_verdict.json : nb_essais_dsr",
+        "source": "nombre d'essais déclaré (projet antérieur non publié)",
         "sharpe_max_attendu_sigma_val": 0.7471639283090701,
         "p_au_moins_un_sharpe_2": 0.00021081230134265268
       },
       {
-        "noeud": "PIVOT1_GLOBAL",
+        "noeud": "exploration B",
         "n_essais": 6,
-        "source": "PIVOT1_GLOBAL_verdict.json : parametres_pre_enregistres.nb_essais_dsr",
+        "source": "nombre d'essais déclaré (projet antérieur non publié)",
         "sharpe_max_attendu_sigma_val": 0.6387639593599325,
         "p_au_moins_un_sharpe_2": 0.00014054647267186377
       },
       {
-        "noeud": "PIVOT1B",
+        "noeud": "exploration C",
         "n_essais": 12,
-        "source": "PIVOT1B_verdict.json : parametres_pre_enregistres.nb_essais_dsr",
+        "source": "nombre d'essais déclaré (projet antérieur non publié)",
         "sharpe_max_attendu_sigma_val": 0.8179279688106181,
         "p_au_moins_un_sharpe_2": 0.00028107319203274703
       },
       {
-        "noeud": "PIVOT3_ROUTE_A_MATRICE",
+        "noeud": "exploration D",
         "n_essais": 39,
-        "source": "PIVOT3_ROUTE_A_MATRICE_verdict.json : meta.nb_essais_dsr_utilise",
+        "source": "nombre d'essais déclaré (projet antérieur non publié)",
         "sharpe_max_attendu_sigma_val": 1.0707756971000286,
         "p_au_moins_un_sharpe_2": 0.0009131990563626068
       },
       {
-        "noeud": "PIVOT3_ROUTE_A_FXPUR_V2",
+        "noeud": "exploration E",
         "n_essais": 50,
-        "source": "PIVOT3_ROUTE_A_FXPUR_V2_verdict.json : meta.nb_essais_dsr_projet_final",
+        "source": "nombre d'essais déclaré (projet antérieur non publié)",
         "sharpe_max_attendu_sigma_val": 1.1183560967007646,
         "p_au_moins_un_sharpe_2": 0.001170617211260028
       },
       {
-        "noeud": "PIVOT4_SCRUTIN",
+        "noeud": "exploration F",
         "n_essais": 134,
-        "source": "PIVOT4_SCRUTIN_verdict.json : n_essais_dsr_utilise (« plancher honnête, pas un plafond »)",
+        "source": "plancher déclaré (« pas un plafond »), projet antérieur non publié",
         "sharpe_max_attendu_sigma_val": 1.2930680658201474,
         "p_au_moins_un_sharpe_2": 0.003134170024917887
       }
@@ -2785,7 +2786,7 @@
     },
     "illustration_selection_1770_paires": {
       "n": 1770,
-      "origine": "nombre de paires de l'univers de référence (CLAUDE.md du projet AWB) : une illustration de sélection « la meilleure paire », PAS un compte d'essais documenté",
+      "origine": "nombre de paires (60·59/2) d'un univers de 60 actifs : une illustration de sélection « la meilleure paire », PAS un compte d'essais documenté",
       "sharpe_max_attendu_sans_edge": 1.677365384216775
     },
     "dsr": {
@@ -3707,7 +3708,7 @@
     "Q1": "La loi IR = TC x IC x racine(BR) prédit le Sharpe brut réalisé avec une corrélation de 0,76 sur 14 couples (sleeve, période) : l'ordre de grandeur tient (écart prédit - réalisé |z| <= 1,1 sur les 14 couples, mais les erreurs-types sont larges), donc ce qui manque est de l'IC, pas de la breadth. Avec une breadth totale de 1792 paris indépendants/an et un TC moyen de 0,94, une pile à IR 2 exigerait un IC de 0,059 sur les 7 sleeves à la fois ; l'IC moyen observé en VAL vaut -0,047 (S1 -0,044, S2 -0,042, S3 0,004, S7 -0,070). Avec l'IC observé de S3 (le seul positif parmi les sleeves quotidiennes), il faudrait 1072 fois sa breadth.",
     "Q2": "IC de S2 (momentum 63 j) négatif à tous les horizons testés sur TRAIN+VAL (60 j : -0,109, t = -3,2) : le signal est inversé. IC de S3 (retournement 5 j) négatif à 2-5 j, positif à 10-60 j (60 j : 0,041, t = 2,8) alors que S3 est tenue 5 jours ; en re-signalisant tous les 60 j le net par jour serait de 0,22 bps (TRAIN) et 0,32 bps (VAL) de l'exposition brute (constat a posteriori : il faudrait un nouveau pré-enregistrement). Demi-vie du signal : S1 65 j, S2 30 j, S3 2 j, S6 58 j ; la demi-vie de l'IC n'est définie que pour 2 des 8 couples (sleeve, période) car l'IC est le plus souvent <= 0. Intrajournalier : gain brut moyen maximal de S4 0,39 bps contre 2,0 bps de coût aller-retour ; S7 au mieux -0,05 bps contre 24 bps.",
     "Q3": "Sur 4,1 ans de VAL l'erreur-type du Sharpe vaut 0,49 ; le plus petit Sharpe vrai détecté avec 80 % de puissance est 1,22 (unilatéral 5 %), 1,62 avec Bonferroni sur 7 sleeves. Détecter un Sharpe de 0,5 exige 25 ans, de 0,25 : 99 ans. Une sleeve de vrai Sharpe 0,5 afficherait un Sharpe VAL <= celui de S6 (0,07) avec 17 % de chances, <= celui de S1 (-0,20) avec 4,5 % (bootstrap ; 7,7 % en analytique) : un vrai Sharpe de 0,5 est écarté (P < 3 %, bootstrap) pour S2, S3, S4, S5, S7 mais pas pour S1, S6. Absence de preuve n'est pas preuve d'absence : un vrai Sharpe de 0,25 n'est écarté (P < 5 %) que pour S2, S4, S7.",
-    "Q4": "Sharpe maximal attendu sans aucun edge : 0,72 pour N = 8 (simulation 0,71), 1,29 pour N = 134, plancher d'essais documenté par PIVOT-4 (simulation 1,29) ; P(au moins un Sharpe VAL >= 2 par hasard | N = 134) = 0,3 %. Sur la durée de VAL (4,1 ans) le hasard seul fabrique un Sharpe de 1 après 28 essais et de 2 après 24121 ; selon la durée du backtest, un Sharpe de 2 sort du hasard après 26 essais (1 an), 243 (2 ans), 17845 (4 ans), 7.3e+07 (8 ans). Choisir la meilleure des 1770 paires de l'univers AWB donnerait 1,68 sans edge (hypothèse : essais indépendants). Conséquence : un « Sharpe > 2 » issu d'une recherche répétée n'a de sens qu'après déflation par le N réel ; le SR0 du prereg (6,23) est tiré par S7, le seuil théorique est 0,72 (le verdict ne change pas).",
+    "Q4": "Sharpe maximal attendu sans aucun edge : 0,72 pour N = 8 (simulation 0,71), 1,29 pour N = 134, plancher d'essais déclaré par un projet antérieur (simulation 1,29) ; P(au moins un Sharpe VAL >= 2 par hasard | N = 134) = 0,3 %. Sur la durée de VAL (4,1 ans) le hasard seul fabrique un Sharpe de 1 après 28 essais et de 2 après 24121 ; selon la durée du backtest, un Sharpe de 2 sort du hasard après 26 essais (1 an), 243 (2 ans), 17845 (4 ans), 7.3e+07 (8 ans). Choisir la meilleure des 1770 paires d'un univers de 60 actifs donnerait 1,68 sans edge (hypothèse : essais indépendants). Conséquence : un « Sharpe > 2 » issu d'une recherche répétée n'a de sens qu'après déflation par le N réel ; le SR0 du prereg (6,23) est tiré par S7, le seuil théorique est 0,72 (le verdict ne change pas).",
     "Q5": "Aucune sleeve n'a un Sharpe brut >= 0,30 sur TRAIN et VAL à la fois (meilleur brut VAL : 0,14). Cause principale (règle explicite) : S1 = pas d'alpha brut ; S2 = pas d'alpha brut ; S3 = pas d'alpha brut ; S4 = pas d'alpha brut (+ coût amplificateur) ; S5 = pas d'alpha brut ; S6 = régime (bêta actions : alpha brut présent sur une seule des deux périodes) ; S7 = pas d'alpha brut (+ coût amplificateur). Les Sharpe annuels de S1, S2, S3, S5, S6 sont compatibles avec un Sharpe constant (p de constance >= 0,43) : ce n'est pas un effet de régime mais un edge nul ou négatif à toute époque. S6 est surtout du bêta actions (corrélation 0,76 au facteur indices en VAL).",
     "Q6": "Avec la corrélation moyenne observée en VAL (0,026), il faut 27 sleeves de Sharpe net 0,5 (16 si indépendantes) pour atteindre 2, ou 0,81 de Sharpe net par sleeve avec 7 sleeves. Le meilleur Sharpe net VAL ici est 0,07 (S6). La formule à risque égal retrouve le Sharpe de la pile (-5,66 prédit contre -5,30 réalisé) : la diversification multiplie un Sharpe moyen, elle n'en crée pas.",
     "Q7": "Sous l'hypothèse non sourcée d'ADV de 1e10 $/jour en FX et 5e10 en indices, l'impact racine carrée à 1 Md$ coûte 0,33 %/an pour S1 et 0,22 %/an pour S6 : la capacité n'est pas le goulot. Capacité (rendement net = 0) : S1 TRAIN 44 Md$, S1 VAL 0 (brut négatif), S6 TRAIN 1215 Md$, S6 VAL 9 Md$ ; elle est proportionnelle à l'ADV supposé (ADV x 0,1 => capacité x 0,1) et au carré du rendement net avant impact. Le goulot reste l'edge brut.",

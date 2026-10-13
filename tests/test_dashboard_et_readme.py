@@ -1,6 +1,6 @@
-"""Cohérence des sorties « vitrine » : tableau de bord (docs/), blocs de chiffres du README, hygiène des chemins.
+"""Cohérence des sorties « vitrine » : tableau de bord (docs/), blocs de chiffres du README et de docs/*.md, premier écran du README.
 
-Aucune donnée de marché requise : tout est lu dans results/ (versionné)."""
+Aucune donnée de marché requise : tout est lu dans results/ (versionné). L'hygiène des chemins est dans test_hygiene_depot.py."""
 import importlib.util
 import json
 import re
@@ -35,6 +35,14 @@ def test_donnees_du_tableau_de_bord_coherentes_et_sans_test():
         assert f["type"] in {"min", "max", "choix"}
 
 
+def test_titre_et_description_du_tableau_de_bord():
+    """Titre propre au projet (sans numéro interne), description d'une phrase pour les balises description / og, VAL dite non vierge."""
+    d = _json(DOCS / "data.json")
+    assert d["titre"] and not d["titre"].startswith("Projet 0")
+    assert 0 < len(d["description"]) <= 160
+    assert "projet de recherche antérieur" in d["sous_titre"]
+
+
 def test_data_js_identique_a_data_json():
     brut = (DOCS / "data.json").read_text(encoding="utf-8")
     assert (DOCS / "data.js").read_text(encoding="utf-8") == "window.DATA = " + brut + ";\n"
@@ -47,29 +55,47 @@ def test_page_du_tableau_de_bord_identique_au_gabarit_commun():
     assert (DOCS / "index.html").read_bytes() == GABARIT.read_bytes()
 
 
-def test_blocs_de_chiffres_du_readme_lus_dans_results():
+def test_blocs_de_chiffres_des_documents_lus_dans_results():
+    """Chaque bloc AUTO du README et de docs/*.md est exactement ce que scripts/generer_readme_tete.py calcule depuis results/."""
     spec = importlib.util.spec_from_file_location("generer_readme_tete", RACINE / "scripts" / "generer_readme_tete.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    tv, tr, csv, frais = mod.charger()
-    attendu = {"TETE": mod.bloc_tete(tv, tr, csv, frais), "OVERFIT": mod.bloc_overfit(tv, csv), "VARIANTES": mod.bloc_variantes(tv, tr, csv)}
-    texte = (RACINE / "README.md").read_text(encoding="utf-8").replace("\r\n", "\n")
-    for nom, contenu in attendu.items():
-        m = re.search(rf"<!-- AUTO:{nom} -->\n(.*?)\n<!-- /AUTO:{nom} -->", texte, re.S)
-        assert m, f"balises AUTO:{nom} absentes du README"
-        assert m.group(1) == contenu, f"bloc AUTO:{nom} périmé : relancer scripts/generer_readme_tete.py"
+    attendu = mod.blocs()
+    assert set(attendu) == {"README.md", "docs/resultats_detailles.md", "docs/approfondissement.md"}
+    for fichier, contenus in attendu.items():
+        texte = (RACINE / fichier).read_text(encoding="utf-8").replace("\r\n", "\n")
+        for nom, contenu in contenus.items():
+            m = re.search(rf"<!-- AUTO:{nom} -->\n(.*?)\n<!-- /AUTO:{nom} -->", texte, re.S)
+            assert m, f"balises AUTO:{nom} absentes de {fichier}"
+            assert m.group(1) == contenu, f"bloc AUTO:{nom} de {fichier} périmé : relancer scripts/generer_readme_tete.py"
 
 
-def test_aucun_chemin_absolu_de_machine_dans_le_depot():
-    """Pas de chemin absolu de machine (lecteur, puis dossier Users) dans le code, les notebooks, les README et les résultats.
-    PREREGISTRATION.md est exclu : fichier figé et haché, il cite le chemin de la machine d'origine."""
-    motif = re.compile(r"[A-Za-z]:[\\/]+Users")
-    exclus = {"PREREGISTRATION.md", "test_dashboard_et_readme.py"}
-    fautifs = []
-    for p in RACINE.rglob("*"):
-        if (not p.is_file() or p.name in exclus or p.suffix not in {".py", ".md", ".json", ".ipynb", ".yml", ".txt", ".csv", ".js", ".html"}
-                or any(x in p.parts for x in ("cache", "__pycache__", ".pytest_cache", "histdata", ".git"))):
-            continue
-        if motif.search(p.read_text(encoding="utf-8", errors="ignore")):
-            fautifs.append(str(p.relative_to(RACINE)))
-    assert not fautifs, fautifs
+def test_rendements_inferieurs_a_moins_100_pct_affiches_ruine():
+    """Un rendement annuel inférieur à −100 % n'existe pas pour un capital réel : le README affiche « ruine », pas −190,9 %."""
+    spec = importlib.util.spec_from_file_location("generer_readme_tete", RACINE / "scripts" / "generer_readme_tete.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    assert mod.rend(-1.909) == "ruine (< −100 %)" and mod.rend(-0.524) == "−52,4 %"
+    texte = (RACINE / "README.md").read_text(encoding="utf-8")
+    assert "190,9" not in texte and "134,2" not in texte and "ruine" in texte
+
+
+def test_readme_court_et_premier_ecran_conforme():
+    """README <= 400 lignes ; résultats clés, badge CI vivant et figure héro dans les 45 premières lignes ; provenance présente."""
+    texte = (RACINE / "README.md").read_text(encoding="utf-8")
+    lignes = texte.splitlines()
+    tete = "\n".join(lignes[:45])
+    assert len(lignes) <= 400
+    assert "## Résultats clés" in tete and "actions/workflows/tests.yml/badge.svg" in tete and "figures/hero_equity.png" in tete
+    assert "## Comment ce projet a été construit" in texte
+    assert "9853" + "f2b" not in texte                 # le commit d'origine n'est pas une preuve publique
+    assert "https://yassine-ek.github.io/preregistered-alpha-research/" in texte
+
+
+def test_tous_les_liens_relatifs_des_documents_existent():
+    for chemin in [RACINE / "README.md", *sorted(DOCS.glob("*.md"))]:
+        texte = chemin.read_text(encoding="utf-8")
+        for cible in re.findall(r"\]\(([^)\s]+)\)", texte) + re.findall(r'src="([^"]+)"', texte):
+            if cible.startswith(("http", "#", "mailto:")):
+                continue
+            assert (chemin.parent / cible.split("#")[0]).exists(), f"{chemin.name} : lien cassé {cible}"

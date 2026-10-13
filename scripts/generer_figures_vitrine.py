@@ -57,7 +57,7 @@ def texte_frais(tr: dict | None) -> str:
     fx = cl["FX"]["mediane_bps"]
     ind = cl["Indice"]["mediane_bps"]
     mat = next(v for n, v in cl.items() if n.startswith("Mati"))["mediane_bps"]
-    return f"coûts réels : FX {f2(fx, 1)} bp, indices {f2(ind, 0)} bp, métaux/pétrole {f2(mat, 1)} bp par jambe (médianes)"
+    return f"coûts par jambe : FX {f2(fx, 1)} bp, indices {f2(ind, 0)} bp, métaux/pétrole {f2(mat, 1)} bp"
 
 
 def _zones(ax, debut, fin_train):
@@ -70,32 +70,32 @@ def _fmt_axe_log(ax):
 
 
 def hero(tv, csv, tr, fin_train):
+    """Figure héro lisible : 2 panneaux (equity, drawdown), police >= 11 pt pour un affichage réduit dans le README."""
     eq = equity(csv, tv, "PILE")
     # drawdown calculé période par période (celui des tableaux : le sommet repart de zéro au début de VAL)
     dd = pd.concat([100 * (e / e.cummax() - 1.0) for e in (eq.loc[:fin_train], eq.loc[fin_train + pd.Timedelta(days=1):])])
     s = tv["series"]["PILE"]
-    fig, (ax, ax2) = plt.subplots(2, 1, figsize=(11, 6.8), sharex=True, gridspec_kw={"height_ratios": [3, 1.15], "hspace": 0.06})
-    _zones(ax, eq.index[0], fin_train)
-    _zones(ax2, eq.index[0], fin_train)
-    ax.semilogy(eq.index, eq.values, color="#0b3d91", lw=2.2)
-    _fmt_axe_log(ax)
-    ax.set_ylabel("capital (base 100, échelle log)")
-    ax.grid(alpha=0.3, which="both", axis="y")
-    trans = ax.get_xaxis_transform()
-    milieu_train = eq.index[0] + (fin_train - eq.index[0]) / 2
-    ax.text(milieu_train, 0.95, f"TRAIN (sélection)\nSharpe net {f2(s['TRAIN']['sharpe_net'])} · drawdown max {f2(100 * s['TRAIN']['drawdown_max'], 1)} %",
-            transform=trans, ha="center", va="top", fontsize=9.5)
-    milieu_val = fin_train + (eq.index[-1] - fin_train) / 2
-    ax.text(milieu_val, 0.95, f"VAL (hors échantillon)\nSharpe net {f2(s['VAL']['sharpe_net'])} · drawdown max {f2(100 * s['VAL']['drawdown_max'], 1)} %",
-            transform=trans, ha="center", va="top", fontsize=9.5)
-    ax2.fill_between(dd.index, dd.values, 0, color="#b91c1c", alpha=0.45, lw=0)
-    ax2.set_ylim(-100, 0)
-    ax2.set_ylabel("drawdown (%)\npar période")
-    ax2.grid(alpha=0.3)
-    fig.suptitle("PILE des 7 sleeves : equity nette de frais, aucune sélection (poids ∝ 1/vol TRAIN, tout est gardé)", fontsize=12.5, y=0.985)
-    ax.set_title(texte_frais(tr) + " ; exécution décalée (1 jour, 1 minute en intrajournalier)", fontsize=9.5, color="0.25", pad=6)
-    fig.savefig(FIGURES / "hero_equity.png", dpi=DPI, bbox_inches="tight")
-    plt.close(fig)
+    with plt.rc_context({"font.size": 11, "axes.labelsize": 11, "xtick.labelsize": 11, "ytick.labelsize": 11}):
+        fig, (ax, ax2) = plt.subplots(2, 1, figsize=(8.2, 6.2), sharex=True, gridspec_kw={"height_ratios": [3, 1.2], "hspace": 0.08})
+        _zones(ax, eq.index[0], fin_train)
+        _zones(ax2, eq.index[0], fin_train)
+        ax.semilogy(eq.index, eq.values, color="#0b3d91", lw=2.4)
+        _fmt_axe_log(ax)
+        ax.set_ylabel("capital (base 100, log)")
+        ax.grid(alpha=0.3, which="both", axis="y")
+        trans = ax.get_xaxis_transform()
+        milieu_train = eq.index[0] + (fin_train - eq.index[0]) / 2
+        ax.text(milieu_train, 0.96, f"TRAIN\nSharpe net {f2(s['TRAIN']['sharpe_net'])}", transform=trans, ha="center", va="top", fontsize=11.5)
+        milieu_val = fin_train + (eq.index[-1] - fin_train) / 2
+        ax.text(milieu_val, 0.96, f"VAL\nSharpe net {f2(s['VAL']['sharpe_net'])}", transform=trans, ha="center", va="top", fontsize=11.5)
+        ax2.fill_between(dd.index, dd.values, 0, color="#b91c1c", alpha=0.45, lw=0)
+        ax2.set_ylim(-100, 0)
+        ax2.set_ylabel("drawdown (%)")
+        ax2.grid(alpha=0.3)
+        fig.suptitle("Pile des 7 sleeves, nette de frais réels, rien n'est écarté", fontsize=13.5, y=0.995)
+        ax.set_title(texte_frais(tr), fontsize=11, color="0.25", pad=6)
+        fig.savefig(FIGURES / "hero_equity.png", dpi=170, bbox_inches="tight")
+        plt.close(fig)
 
 
 def _etiquettes_sans_chevauchement(ys, pas=0.085):

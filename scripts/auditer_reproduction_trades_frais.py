@@ -30,6 +30,7 @@ from alpha import moteur  # noqa: E402
 from alpha import pipeline as pl  # noqa: E402
 from alpha.approfondissement.chargement import lecteur_strict  # noqa: E402
 from alpha.couts import FICHIER_FRAIS, charger_couts  # noqa: E402
+import verifier_donnees  # noqa: E402  (message guidé si les données manquent)
 
 RESULTATS = RACINE / "results"
 CHAMPS = ["n_jours", "sharpe_net", "sharpe_brut", "rendement_annuel_net", "vol_annuelle",
@@ -68,8 +69,7 @@ def _trades_intra(poids: pd.DataFrame, ret: pd.DataFrame) -> pd.Series:
 
 def main() -> None:
     t0 = time.time()
-    if not (d.DOSSIER_1H / "EURUSD_1h.csv").exists():
-        sys.exit("Données absentes : définir HISTDATA_DIR (racine contenant processed/univers et histdata_raw).")
+    verifier_donnees.exiger_donnees()
     officiel = json.loads((RESULTATS / "train_val.json").read_text(encoding="utf-8"))
 
     prises, (q0, i0), (q, i) = _capturer()

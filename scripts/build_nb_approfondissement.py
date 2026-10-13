@@ -17,10 +17,10 @@ def code(t):
 
 
 BANDEAU = ("> **EXPLORATOIRE — ne modifie pas le verdict pré-enregistré.** Analyse a posteriori sur TRAIN (≤ 2018) et VAL (2019-2022). "
-           "Le TEST (≥ 2023) reste scellé, aucun paramètre des sleeves n'est touché, `PREREGISTRATION.md` n'est pas modifié.")
+           "Le TEST (≥ 2023) reste scellé, aucun paramètre des sleeves n'est touché, `PREREGISTRATION.md` n'est pas modifié (pas de nouvel avenant).")
 
 md(r"""
-# Approfondissement du projet 04 : pourquoi aucune des 7 stratégies connues ne marche ici, et que faudrait-il de vrai pour un Sharpe net > 2 ?
+# Approfondissement : pourquoi aucune des 7 stratégies connues ne marche ici, et que faudrait-il de vrai pour un Sharpe net > 2 ?
 
 """ + BANDEAU + r"""
 
@@ -305,7 +305,7 @@ md(r"""
 
 """ + BANDEAU + r"""
 
-**Question.** Si on teste N stratégies sans aucun edge, quel est le meilleur Sharpe qu'on trouvera en moyenne ? Que valent N = 8 (ce projet) et le nombre d'essais documenté de l'historique AWB ? Que dire d'un « Sharpe > 2 » obtenu par recherche répétée ?
+**Question.** Si on teste N stratégies sans aucun edge, quel est le meilleur Sharpe qu'on trouvera en moyenne ? Que valent N = 8 (ce projet) et les nombres d'essais déclarés par un projet de recherche antérieur (non publié) ? Que dire d'un « Sharpe > 2 » obtenu par recherche répétée ?
 
 **Intuition.** Le meilleur de N loteries est meilleur que la loterie moyenne, mécaniquement. Un backtest court a des Sharpe très dispersés (SE élevée), donc le meilleur de beaucoup d'essais a l'air excellent par pur hasard.
 
@@ -315,7 +315,7 @@ $$\mathbb E[\max_N \widehat{SR}]\;\approx\;\sigma\Big((1-\gamma)\,\Phi^{-1}\!\bi
 
 **Attente.** Avec $\sigma=\mathrm{SE}$ d'un Sharpe VAL ≈ 0,49 : N = 8 → ≈ 0,7 ; N = 134 → ≈ 1,3 ; un Sharpe de 2 par pur hasard demande des milliers d'essais sur 4 ans mais seulement ~25 sur 1 an.
 
-**Expérience.** On vérifie la formule par simulation de N stratégies de bruit blanc (1 044 jours), puis on l'applique aux nombres d'essais **cités** dans `docs/idees/*_verdict.json` (rien n'est estimé).
+**Expérience.** On vérifie la formule par simulation de N stratégies de bruit blanc (1 044 jours), puis on l'applique aux nombres d'essais **déclarés** par ce projet antérieur non publié (rien n'est estimé).
 """)
 
 code(r"""
@@ -330,7 +330,7 @@ md(r"""**Résultat.**""")
 code(r"""
 q4 = R["Q4_tests_multiples"]
 display(pd.DataFrame(q4["validation_formule_vs_simulation"]).T.round(3))
-display(pd.DataFrame(q4["historique_awb"]).set_index("noeud").round(4))
+display(pd.DataFrame(q4["historique_essais_anterieurs"]).set_index("noeud").round(4))
 display(pd.DataFrame(q4["n_essais_pour_sharpe_2_selon_duree_backtest_annees"]).T.rename(columns={"n_essais_pour_sr_attendu_2": "N pour un Sharpe 2 par hasard"}).round(3))
 print("N pour que le hasard fabrique un Sharpe de ... sur 4 ans :", {k: round(v) for k, v in q4["n_essais_pour_sharpe_cible_sur_4_ans"].items()})
 print("illustration :", q4["illustration_selection_1770_paires"])
@@ -342,8 +342,8 @@ display(Image(str(FIG / "appro_q4_tests_multiples.png")))
 md(r"""**Conclusion / limites.**""")
 code(r"""aff(R["conclusions"]["Q4"])""")
 md(r"""
-*Limites.* La formule suppose des essais indépendants et de même variance ; les essais d'AWB sont fortement corrélés (mêmes données, variantes d'une idée), donc le N *effectif* est plus petit que N, et le seuil plus bas. Le projet ne tient pas de
-compteur cumulé unique : 134 est un plancher déclaré par PIVOT-4, pas une mesure. Les « 1 770 paires » ne sont pas un compte d'essais, seulement l'illustration d'une sélection de la meilleure paire. Le seuil théorique ci-dessus est un
+*Limites.* La formule suppose des essais indépendants et de même variance ; les essais du projet antérieur sont fortement corrélés (mêmes données, variantes d'une idée), donc le N *effectif* est plus petit que N, et le seuil plus bas. Le projet ne tient pas de
+compteur cumulé unique : 134 est un plancher déclaré par ce projet antérieur, pas une mesure. Les « 1 770 paires » (60·59/2) ne sont pas un compte d'essais, seulement l'illustration d'une sélection de la meilleure paire. Le seuil théorique ci-dessus est un
 diagnostic exploratoire : le DSR pré-enregistré (SR0 = 6,23) reste celui du verdict.
 """)
 

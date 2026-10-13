@@ -550,13 +550,15 @@ def theme3_puissance(train_val: dict, rend_val_nets: dict[str, np.ndarray]) -> d
 
 
 # ------------------------------------------------------ Théme 4 : tests multiples
-HISTORIQUE_AWB = [  # nombres d'essais rapportés dans docs/idees/*_verdict.json (cités, non estimés)
-    ("ETAPE3", 9, "ETAPE3_verdict.json : nb_essais_dsr"),
-    ("PIVOT1_GLOBAL", 6, "PIVOT1_GLOBAL_verdict.json : parametres_pre_enregistres.nb_essais_dsr"),
-    ("PIVOT1B", 12, "PIVOT1B_verdict.json : parametres_pre_enregistres.nb_essais_dsr"),
-    ("PIVOT3_ROUTE_A_MATRICE", 39, "PIVOT3_ROUTE_A_MATRICE_verdict.json : meta.nb_essais_dsr_utilise"),
-    ("PIVOT3_ROUTE_A_FXPUR_V2", 50, "PIVOT3_ROUTE_A_FXPUR_V2_verdict.json : meta.nb_essais_dsr_projet_final"),
-    ("PIVOT4_SCRUTIN", 134, "PIVOT4_SCRUTIN_verdict.json : n_essais_dsr_utilise (« plancher honnête, pas un plafond »)"),
+# Nombres d'essais déclarés par un projet de recherche antérieur (non publié) sur le même univers et la même période VAL :
+# cités tels quels, jamais estimés ici. Le plus grand (134) est un plancher déclaré, « pas un plafond ».
+HISTORIQUE_ESSAIS = [
+    ("exploration A", 9, "nombre d'essais déclaré (projet antérieur non publié)"),
+    ("exploration B", 6, "nombre d'essais déclaré (projet antérieur non publié)"),
+    ("exploration C", 12, "nombre d'essais déclaré (projet antérieur non publié)"),
+    ("exploration D", 39, "nombre d'essais déclaré (projet antérieur non publié)"),
+    ("exploration E", 50, "nombre d'essais déclaré (projet antérieur non publié)"),
+    ("exploration F", 134, "plancher déclaré (« pas un plafond »), projet antérieur non publié"),
 ]
 
 
@@ -568,13 +570,13 @@ def theme4_tests_multiples(train_val: dict, rend_val_nets: dict[str, np.ndarray]
         sim[str(n)] = {"formule": theorie.sharpe_max_attendu(n, sigma), "exact_gaussien": theorie.esperance_max_gaussien(n) * sigma,
                        "simulation_moyenne": m, "simulation_ecart_type": s}
     hist = [{"noeud": nom, "n_essais": n, "source": src, "sharpe_max_attendu_sigma_val": theorie.sharpe_max_attendu(n, sigma),
-             "p_au_moins_un_sharpe_2": theorie.proba_au_moins_un_sharpe(2.0, n, sigma)} for nom, n, src in HISTORIQUE_AWB]
+             "p_au_moins_un_sharpe_2": theorie.proba_au_moins_un_sharpe(2.0, n, sigma)} for nom, n, src in HISTORIQUE_ESSAIS]
     # N nécessaire pour qu'un Sharpe de 2 sorte du hasard, selon la durée du backtest
     besoins = {str(y): {"sigma_sr": 1.0 / np.sqrt(y), "n_essais_pour_sr_attendu_2": theorie.n_essais_pour_sharpe(2.0, 1.0 / np.sqrt(y))}
                for y in (1, 2, 4, 8)}
     # sur la durée de VAL : N pour que le hasard seul « fabrique » un Sharpe de 0,5 / 1 / 1,5 / 2
     cibles = {str(c): theorie.n_essais_pour_sharpe(c, sigma) for c in (0.5, 1.0, 1.5, 2.0)}
-    illustration = {"n": 1770, "origine": "nombre de paires de l'univers de référence (CLAUDE.md du projet AWB) : une illustration de sélection "
+    illustration = {"n": 1770, "origine": "nombre de paires (60·59/2) d'un univers de 60 actifs : une illustration de sélection "
                                           "« la meilleure paire », PAS un compte d'essais documenté",
                     "sharpe_max_attendu_sans_edge": theorie.sharpe_max_attendu(1770, sigma)}
     # DSR du prereg (variance observée des 8 Sharpe, dominée par S7) vs seuil « théorique » (variance = SE^2)
@@ -582,7 +584,7 @@ def theme4_tests_multiples(train_val: dict, rend_val_nets: dict[str, np.ndarray]
     sr0_prereg = stats.sharpe_reference_dsr(sh_q) * np.sqrt(252)
     sr0_theo = theorie.sharpe_max_attendu(8, sigma)
     dsr_theo = {k: stats.psr(x, sr0_theo / np.sqrt(252)) for k, x in rend_val_nets.items()}
-    return {"sigma_sharpe_val": sigma, "validation_formule_vs_simulation": sim, "historique_awb": hist,
+    return {"sigma_sharpe_val": sigma, "validation_formule_vs_simulation": sim, "historique_essais_anterieurs": hist,
             "n_essais_pour_sharpe_2_selon_duree_backtest_annees": besoins, "n_essais_pour_sharpe_cible_sur_4_ans": cibles,
             "illustration_selection_1770_paires": illustration,
             "dsr": {"sr0_annualise_prereg_variance_observee": sr0_prereg, "sr0_annualise_variance_theorique": sr0_theo,
