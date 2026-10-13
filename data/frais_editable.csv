@@ -1,0 +1,75 @@
+actif,classe,frais_bps_par_jambe,frais_editable_override,source,date_reference,note
+AUDCAD,FX,1.5330369461904032,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+AUDCHF,FX,3.3139274518584863,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+AUDJPY,FX,0.9865293896073614,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+AUDNZD,FX,1.717805462621371,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+AUDUSD,FX,0.942821502132227,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+AUXAUD,Indice,12,,DECISION_INDICES,2026-06-26 16:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+BCOUSD,Matière première,1.9054878048780488,,IG_COMMO_2026,2026-06-26 16:00:00,Spread contractuel 'normal' recopie en min et base (pas une moyenne); a verifier.
+CADCHF,FX,3.2435654674240837,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+CADJPY,FX,1.7993346850286576,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+CHFJPY,FX,0.7261364034714327,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURAUD,FX,0.9993822000944871,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURCAD,FX,1.1449436811486573,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURCHF,FX,1.4101618431900032,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURCZK,FX,8.76285046247232,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURDKK,FX,0.8562984092919081,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURGBP,FX,0.9854272696708674,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURHUF,FX,6.974724052753248,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURJPY,FX,0.46159025990246877,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURNOK,FX,2.8051434118508016,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURNZD,FX,1.2135741989171949,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURPLN,FX,4.701133871494563,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURSEK,FX,2.4330680581950155,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURTRY,FX,3.5203987287020113,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+EURUSD,FX,0.48307481511409356,,IG_FX_2024_AVG,2026-06-26 16:00:00,IG retail moy 3 mois finissant 2024-03-31; controle CMC avril 2026 suggere ~-30% vs ce cout (a verifier).
+FRXEUR,Indice,12,,DECISION_INDICES,2026-06-26 15:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+GBPAUD,FX,1.4891215750203777,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+GBPCAD,FX,1.4149709263520982,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+GBPCHF,FX,1.9652432690418036,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+GBPJPY,FX,0.8902800164936087,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+GBPNZD,FX,1.3461941169180276,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+GBPUSD,FX,0.6441443489595176,,IG_FX_2024_AVG,2026-06-26 16:00:00,IG retail moy 3 mois finissant 2024-03-31; controle CMC avril 2026 suggere ~-9% vs ce cout.
+GRXEUR,Indice,12,,DECISION_INDICES,2026-06-26 15:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+HKXHKD,Indice,12,,DECISION_INDICES,2026-06-26 12:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+JPXJPY,Indice,12,,DECISION_INDICES,2026-06-26 16:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+NSXUSD,Indice,12,,DECISION_INDICES,2026-06-26 16:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+NZDCAD,FX,3.062614848056803,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+NZDCHF,FX,5.6961332018841055,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+NZDJPY,FX,1.9743553181454225,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+NZDUSD,FX,2.234993614303959,,IG_FX_2020_NZDUSD,2026-06-26 16:00:00,"VIEUX: moyenne 12 sem, fenetre finissant 2020-05-29, confiance faible."
+SGDJPY,FX,1.361437678188167,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+SPXUSD,Indice,12,,DECISION_INDICES,2026-06-26 16:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+UKXGBP,Indice,12,,DECISION_INDICES,2026-06-26 15:00:00,Fige le 2026-07-15: 12 bp/jambe impose (pas une moyenne observee).
+USDCAD,FX,0.6693487588864855,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDCHF,FX,1.173230583033851,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDCZK,FX,7.934346801378416,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDDKK,FX,1.3939501042034834,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDHKD,FX,0.4208432167725151,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDHUF,FX,7.8349984716122085,,IG_FX_2024_AVG,2026-06-26 15:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDJPY,FX,0.40188949893653864,,IG_FX_2024_AVG,2026-06-26 16:00:00,IG retail moy 3 mois finissant 2024-03-31; controle CMC avril 2026 suggere ~+3% vs ce cout.
+USDMXN,FX,3.6878886423313624,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDNOK,FX,3.1284256512767605,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDPLN,FX,5.591875443298914,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDSEK,FX,2.723798599248026,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDSGD,FX,1.546563150039824,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDTRY,FX,2.8404477180628236,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+USDZAR,FX,4.692434459294878,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+WTIUSD,Matière première,1.8826820150076655,,IG_COMMO_2026,2023-12-01 16:00:00,Spread contractuel recopie en min/base; conversion bp utilise prix du 2023-12-01 (vieux); a verifier en priorite.
+XAGUSD,Matière première,2.5319447023277006,,IG_COMMO_2026,2026-06-26 16:00:00,Scenario low (page CFD) vs base (page MT4) non homogenes; a verifier.
+XAUUSD,Matière première,0.7336312202145724,,IG_COMMO_2026,2026-06-26 16:00:00,Scenario low (page CFD) vs base (page MT4) non homogenes; controle CMC avril 2026 suggere ~+30% vs ce cout.
+ZARJPY,FX,10.69464249337951,,IG_FX_2024_AVG,2026-06-26 16:00:00,"IG retail moy 3 mois finissant 2024-03-31 (vintage, a rafraichir pour v2)."
+AUDSGD,FX,3.4380267944281786,,IG_FX_2024_AVG,2026-07-19,"Spread moyen IG 6.2 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-19."
+CADSGD,FX,3.6890759949654965,,FTS_PRIME_TYPICAL_2026,2026-07-19,"Spread typique FTS Prime Executive 6.8 pips, moyenne sessions Londres/New York; conversion demi-spread en bp au Close LSE 2026-07-19."
+EURHKD,FX,2.3888807647097563,,FBS_TYPICAL_2026,2026-07-19,"Spread typique FBS 0.00428, page officielle Forex Exotic; conversion demi-spread en bp au Close LSE 2026-07-19."
+EURSGD,FX,1.9640776962045892,,IG_FX_2024_AVG,2026-07-19,"Spread moyen IG 5.8 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-19."
+EURZAR,FX,6.34505352845783,,IG_FX_2024_AVG,2026-07-19,"Spread moyen IG 240.0 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-19."
+GBPHKD,FX,0.8728743848370335,,TICKMILL_TYPICAL_2026,2026-07-19,"Spread typique Tickmill 18.4 pips; conversion demi-spread en bp au Close LSE 2026-07-19."
+GBPPLN,FX,4.814272995752458,,IG_FX_2024_AVG,2026-07-19,"Spread moyen IG 49.1 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-19."
+GBPSGD,FX,2.2450048641772056,,IG_FX_2024_AVG,2026-07-19,"Spread moyen IG 7.8 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-19."
+GBPZAR,FX,6.711140988332905,,IG_FX_2024_AVG,2026-07-19,"Spread moyen IG 298.7 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-19."
+HKDJPY,FX,1.9538420494789992,,TRADING212_AVG_2026,2026-07-19,"Spread moyen Trading 212 0.0081; conversion demi-spread en bp au Close LSE 2026-07-19."
+NZDSGD,FX,3.313847907636431,,TICKMILL_TYPICAL_2026,2026-07-19,"Spread typique Tickmill 5.0 pips; conversion demi-spread en bp au Close LSE 2026-07-19."
+TRYJPY,FX,139.81939994174192,,IG_FX_2024_AVG,2026-07-17,"Spread moyen IG 9.6 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-17; cout extreme mais non tronque."
+USDCNH,FX,1.4313181259471415,,IG_FX_2024_AVG,2026-07-19,"Spread moyen IG 19.4 pips (3 mois finissant 2024-03-31); conversion demi-spread en bp au Close LSE 2026-07-19."
+USDTHB,FX,1.0901015982413405,,PEPPERSTONE_AVG_2022,2026-07-19,"Spread moyen Pepperstone Standard 73.39 points; conversion demi-spread en bp au Close LSE 2026-07-19."

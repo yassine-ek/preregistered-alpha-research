@@ -1,0 +1,45 @@
+{
+  "description": "Empreintes du code officiel (alpha/*.py + scripts/run_train_val.py, ouvrir_test.py, verdict.py) avant et après la mise en conformité GitHub du 13/10 (chemins relatifs, HISTDATA_DIR). Détail : results/notes_implementation.md, section « Mise en conformité GitHub ».",
+  "avant_chemins_13_10": {
+    "commit": "b3c9522 (HEAD au moment de la mise en conformité ; dernier commit à avoir modifié alpha/ et les 3 scripts officiels : e022cbe)",
+    "sha256_code_octets_bruts": "ad21bbc893b1aa34db15f0f34495ce26fb9fc4beb6aaac67eb6acab5cb292fa3",
+    "note": "valeur écrite dans results/train_val.json (meta.code_sha256) : hachage des octets bruts du checkout Windows (fins de ligne CRLF), donc non reproductible sous Linux",
+    "sha256_code_fins_de_ligne_normalisees": "d9f6fe23b773a09f28415bef8bd06ee967ac0a8340fafba158b14851f97b5e26"
+  },
+  "apres_chemins_13_10": {
+    "sha256_code": "75933d8f55f418bcefd6da62e859bddbdc809d3ef2842361c5bc10d49665426f",
+    "algorithme": "pipeline.sha256_code() : fins de ligne normalisées en LF avant hachage (même valeur sous Windows et Linux)"
+  },
+  "fichiers_modifies": [
+    "alpha/couts.py",
+    "alpha/donnees.py",
+    "alpha/pipeline.py"
+  ],
+  "nature_des_modifications": {
+    "alpha/donnees.py": "RACINE_DONNEES lit la variable d'environnement HISTDATA_DIR (défaut ./data/histdata) au lieu d'un chemin absolu ; aucune logique de chargement, d'horloge ou de troncature du TEST modifiée",
+    "alpha/couts.py": "FICHIER_FRAIS pointe sur data/frais_editable.csv (copie octet pour octet de coordination/frais_editable.csv) ; aucune règle de coût modifiée",
+    "alpha/pipeline.py": "sha256_code() normalise les fins de ligne avant de hacher ; aucune modification du calcul"
+  },
+  "hash_par_fichier_lf": {
+    "avant": {
+      "alpha/couts.py": "967eb87f8c9712a2c4617ebc3fd8299bf27a49ec015602ecd6b9fdb7537892ac",
+      "alpha/donnees.py": "1372cfcdfe3b41a77533393f6a7e1d9ff63841ab6235e5a2417297ea9c259149",
+      "alpha/pipeline.py": "b2b745d80fbb98013a306bba44252c05ec397a4702bebfe5d99374f26ff7d027"
+    },
+    "apres": {
+      "alpha/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "alpha/couts.py": "8fae5c1e0494993b6d68ce7296429bc007f12b087f5bed1ee7da0ae74911df45",
+      "alpha/donnees.py": "5db9e608aa7063fe967a2f6b46697bce49ca1c02fc9dbcddb10abd7f47a3a040",
+      "alpha/gates.py": "e144ded920ec9bff8fbb6d09022be6e6c8e9b1c9d93bb1f9c017165749aade81",
+      "alpha/graphiques.py": "02f63e14e48d3cc27af9f488cbcf43de6e08fd603d8e8e094d5b2a1e21c84bcf",
+      "alpha/moteur.py": "44fb9f91d60d18f43ab1707b4bb15ef768f94736742f9cbd16e69507dba827f9",
+      "alpha/pipeline.py": "8f30990684976ef5d080bb6c585f4e8c0f537f5119de526410131800d0823fee",
+      "alpha/risque.py": "b04a0b3d24645e0c09aeaefc9362de7918eaa6b866fbe2e082f873e8f80c736d",
+      "alpha/sleeves.py": "e8d29bc8a8555169398535a726faac62c15a927f7d69dc1dd0a82e2bb7fdefa5",
+      "alpha/stats.py": "7591f389d844c1dfbbb6e1eaf1a1b1911205294ec828de513b83e689bce7c11f",
+      "scripts/ouvrir_test.py": "81df3f0fb809c25a0051f2184506e02193ae69d4941bc42632f838a24934c041",
+      "scripts/run_train_val.py": "a8661798f08e0d22ba1a12c9937da786a5bb7d6f53e092d303ddaea5077e3aa3",
+      "scripts/verdict.py": "57b5b2f30404571718856b6658a7159f72038e249e6524ff603fc8d55f914871"
+    }
+  }
+}

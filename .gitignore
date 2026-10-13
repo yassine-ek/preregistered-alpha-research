@@ -1,0 +1,12 @@
+cache/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+*.pyc
+.DS_Store
+# le .gitignore de la racine du portfolio ignore tout dossier data/ : on re-inclut celui-ci (coûts réels versionnés)...
+!data/
+# ... mais pas les données de marché locales (HISTDATA_DIR, défaut ./data/histdata) : jamais versionnées
+data/histdata/
+*.parquet

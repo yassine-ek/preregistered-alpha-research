@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "description": "Audit du 13/10 (chemins relatifs, HISTDATA_DIR) : reproduction, nombre de trades, frais",
+    "date": "2026-10-13",
+    "test": "scellé, non chargé",
+    "dernier_jour_calcule": "2022-12-30",
+    "duree_s": 21
+  },
+  "reproduction": {
+    "tolerance": 1e-09,
+    "ecart_max_toutes_statistiques": 0.0,
+    "ecart_max_sharpe_net_val": 0.0,
+    "ecart_sharpe_net_val_par_serie": {
+      "S1": 0.0,
+      "S2": 0.0,
+      "S3": 0.0,
+      "S4": 0.0,
+      "S5": 0.0,
+      "S6": 0.0,
+      "S7": 0.0,
+      "PILE": 0.0
+    },
+    "ecart_relatif_max_csv_rendements": 4.931902251523246e-08,
+    "champs_compares": [
+      "n_jours",
+      "sharpe_net",
+      "sharpe_brut",
+      "rendement_annuel_net",
+      "vol_annuelle",
+      "drawdown_max",
+      "rotation_annuelle",
+      "cout_annuel"
+    ],
+    "series": [
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S7",
+      "PILE"
+    ]
+  },
+  "nb_trades": {
+    "definition": "ordres exécutés : quotidien = variations de position non nulles par actif ; intrajournalier = 2 ordres (ouverture, fermeture) par position ; pile = somme des sleeves",
+    "par_serie": {
+      "S1": {
+        "TRAIN": 61250,
+        "VAL": 32332
+      },
+      "S2": {
+        "TRAIN": 3275,
+        "VAL": 1476
+      },
+      "S3": {
+        "TRAIN": 3635,
+        "VAL": 1648
+      },
+      "S4": {
+        "TRAIN": 27200,
+        "VAL": 12444
+      },
+      "S5": {
+        "TRAIN": 784,
+        "VAL": 366
+      },
+      "S6": {
+        "TRAIN": 654,
+        "VAL": 336
+      },
+      "S7": {
+        "TRAIN": 3722,
+        "VAL": 1926
+      },
+      "PILE": {
+        "TRAIN": 100520,
+        "VAL": 50528
+      }
+    }
+  },
+  "frais_univers": {
+    "n_actifs": 58,
+    "source_fichier": "data/frais_editable.csv",
+    "regle": "override sinon frais_bps_par_jambe ; indices figés à 12 bps ; coût = bps x |delta position|",
+    "par_classe": {
+      "FX": {
+        "n_actifs": 48,
+        "min_bps": 0.4018894989365386,
+        "mediane_bps": 1.6321843063305974,
+        "max_bps": 10.69464249337951
+      },
+      "Indice": {
+        "n_actifs": 7,
+        "min_bps": 12.0,
+        "mediane_bps": 12.0,
+        "max_bps": 12.0
+      },
+      "Matière première / métal": {
+        "n_actifs": 3,
+        "min_bps": 0.7336312202145724,
+        "mediane_bps": 1.9054878048780488,
+        "max_bps": 2.5319447023277006
+      }
+    }
+  }
+}
