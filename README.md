@@ -252,10 +252,6 @@ Garde-fous du TEST : (1) `alpha/donnees.py` lève `PermissionError` si on demand
 - **Calibration de S6 sur TRAIN** : la constante `c` est choisie pour que la vol TRAIN soit 10 % (prévu par le protocole). **Minutes HistData** : BID seulement, trous de 5 minutes tolérés au plus.
 - **Pas de benchmark externe** (indice CTA, buy-and-hold) : S6 est surtout du bêta actions (corrélation 0,76 au facteur indices).
 
-## Comment ce projet a été construit
-
-Projet réalisé en octobre 2026 avec un assistant de programmation IA (Claude, Anthropic) que j'ai dirigé : choix des sujets, protocole, vérification des résultats. Tous les chiffres sont régénérés par les scripts du dépôt et contrôlés par les tests et la CI.
-
 ## Obtenir les données
 
 Les données de marché ne sont pas redistribuées. Sans elles, on relit tous les chiffres dans `results/` et on régénère tout le reste (tests, tableau de bord, figures, blocs de chiffres, contrôle positif) ; seul le rejeu du calcul demande les données.

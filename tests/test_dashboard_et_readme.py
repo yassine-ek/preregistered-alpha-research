@@ -87,7 +87,6 @@ def test_readme_court_et_premier_ecran_conforme():
     tete = "\n".join(lignes[:45])
     assert len(lignes) <= 400
     assert "## Résultats clés" in tete and "actions/workflows/tests.yml/badge.svg" in tete and "figures/hero_equity.png" in tete
-    assert "## Comment ce projet a été construit" in texte
     assert "9853" + "f2b" not in texte                 # le commit d'origine n'est pas une preuve publique
     assert "https://yassine-ek.github.io/preregistered-alpha-research/" in texte
 
